@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parking Parking</title>
+    <style>
+      body {
+        text-align: center;
+      }
+      h1 {
+        color: red;
+      }
+      p {
+        color: rgb(51, 0, 255);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Parking Demo</h1>
+    <div id="show_image"></div>
+    <script>
+      const fetch_data = () => {
+        document.getElementById("show_image").innerHTML = "";
+        fetch("/api")
+          .then((rest) => rest.json())
+          .then((data) => {
+            html = "";
+            data = data.reverse();
+            data.forEach((element) => {
+              html += `
+                <p>ID : ${element.id}</p>
+                <img style="width: 500px;" src="${element.data_cam}">
+                <p>DATE    : ${element.data_date}</p>
+                <p>ID_CARD : ${element.card_id}<p>
+                <hr>
+              `;
+            });
+
+            document.getElementById("show_image").innerHTML = html;
+          });
+      };
+
+      fetch_data();
+      setInterval(() => {
+        fetch_data();
+      }, 5000);
+    </script>
+  </body>
+</html>
